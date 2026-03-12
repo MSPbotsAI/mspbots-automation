@@ -1,0 +1,248 @@
+{
+  "version": "5",
+  "specifiers": {
+    "npm:@mspbots/type@190.0.0": "190.0.0",
+    "npm:hono@*": "4.12.3",
+    "npm:hono@4.12.3": "4.12.3",
+    "npm:mysql2@*": "3.19.1_@types+node@25.4.0",
+    "npm:mysql2@^3.15.2": "3.19.1_@types+node@25.4.0",
+    "npm:nodemailer@*": "7.0.13",
+    "npm:nodemailer@^7.0.5": "7.0.13",
+    "npm:qs@*": "6.15.0"
+  },
+  "npm": {
+    "@mspbots/type@190.0.0": {
+      "integrity": "sha512-mWwRZmhiVoCXgOQPNy/6Fc3Tuo1H93GOt2NHLX8qZ3STqK0XDjI25I6c2My/a71Gui0Xri0nQIasFX35u1FUgA==",
+      "tarball": "https://npm.mspbots.ai/@mspbots/type/-/type-190.0.0.tgz"
+    },
+    "@types/node@25.4.0": {
+      "integrity": "sha512-9wLpoeWuBlcbBpOY3XmzSTG3oscB6xjBEEtn+pYXTfhyXhIxC5FsBer2KTopBlvKEiW9l13po9fq+SJY/5lkhw==",
+      "dependencies": [
+        "undici-types"
+      ],
+      "tarball": "https://npm.mspbots.ai/@types/node/-/node-25.4.0.tgz"
+    },
+    "aws-ssl-profiles@1.1.2": {
+      "integrity": "sha512-NZKeq9AfyQvEeNlN0zSYAaWrmBffJh3IELMZfRpJVWgrpEbtEpnjvzqBPf+mxoI287JohRDoa+/nsfqqiZmF6g==",
+      "tarball": "https://npm.mspbots.ai/aws-ssl-profiles/-/aws-ssl-profiles-1.1.2.tgz"
+    },
+    "call-bind-apply-helpers@1.0.2": {
+      "integrity": "sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==",
+      "dependencies": [
+        "es-errors",
+        "function-bind"
+      ],
+      "tarball": "https://npm.mspbots.ai/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz"
+    },
+    "call-bound@1.0.4": {
+      "integrity": "sha512-+ys997U96po4Kx/ABpBCqhA9EuxJaQWDQg7295H4hBphv3IZg0boBKuwYpt4YXp6MZ5AmZQnU/tyMTlRpaSejg==",
+      "dependencies": [
+        "call-bind-apply-helpers",
+        "get-intrinsic"
+      ],
+      "tarball": "https://npm.mspbots.ai/call-bound/-/call-bound-1.0.4.tgz"
+    },
+    "denque@2.1.0": {
+      "integrity": "sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==",
+      "tarball": "https://npm.mspbots.ai/denque/-/denque-2.1.0.tgz"
+    },
+    "dunder-proto@1.0.1": {
+      "integrity": "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==",
+      "dependencies": [
+        "call-bind-apply-helpers",
+        "es-errors",
+        "gopd"
+      ],
+      "tarball": "https://npm.mspbots.ai/dunder-proto/-/dunder-proto-1.0.1.tgz"
+    },
+    "es-define-property@1.0.1": {
+      "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==",
+      "tarball": "https://npm.mspbots.ai/es-define-property/-/es-define-property-1.0.1.tgz"
+    },
+    "es-errors@1.3.0": {
+      "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==",
+      "tarball": "https://npm.mspbots.ai/es-errors/-/es-errors-1.3.0.tgz"
+    },
+    "es-object-atoms@1.1.1": {
+      "integrity": "sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==",
+      "dependencies": [
+        "es-errors"
+      ],
+      "tarball": "https://npm.mspbots.ai/es-object-atoms/-/es-object-atoms-1.1.1.tgz"
+    },
+    "function-bind@1.1.2": {
+      "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
+      "tarball": "https://npm.mspbots.ai/function-bind/-/function-bind-1.1.2.tgz"
+    },
+    "generate-function@2.3.1": {
+      "integrity": "sha512-eeB5GfMNeevm/GRYq20ShmsaGcmI81kIX2K9XQx5miC8KdHaC6Jm0qQ8ZNeGOi7wYB8OsdxKs+Y2oVuTFuVwKQ==",
+      "dependencies": [
+        "is-property"
+      ],
+      "tarball": "https://npm.mspbots.ai/generate-function/-/generate-function-2.3.1.tgz"
+    },
+    "get-intrinsic@1.3.0": {
+      "integrity": "sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==",
+      "dependencies": [
+        "call-bind-apply-helpers",
+        "es-define-property",
+        "es-errors",
+        "es-object-atoms",
+        "function-bind",
+        "get-proto",
+        "gopd",
+        "has-symbols",
+        "hasown",
+        "math-intrinsics"
+      ],
+      "tarball": "https://npm.mspbots.ai/get-intrinsic/-/get-intrinsic-1.3.0.tgz"
+    },
+    "get-proto@1.0.1": {
+      "integrity": "sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==",
+      "dependencies": [
+        "dunder-proto",
+        "es-object-atoms"
+      ],
+      "tarball": "https://npm.mspbots.ai/get-proto/-/get-proto-1.0.1.tgz"
+    },
+    "gopd@1.2.0": {
+      "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==",
+      "tarball": "https://npm.mspbots.ai/gopd/-/gopd-1.2.0.tgz"
+    },
+    "has-symbols@1.1.0": {
+      "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==",
+      "tarball": "https://npm.mspbots.ai/has-symbols/-/has-symbols-1.1.0.tgz"
+    },
+    "hasown@2.0.2": {
+      "integrity": "sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==",
+      "dependencies": [
+        "function-bind"
+      ],
+      "tarball": "https://npm.mspbots.ai/hasown/-/hasown-2.0.2.tgz"
+    },
+    "hono@4.12.3": {
+      "integrity": "sha512-SFsVSjp8sj5UumXOOFlkZOG6XS9SJDKw0TbwFeV+AJ8xlST8kxK5Z/5EYa111UY8732lK2S/xB653ceuaoGwpg==",
+      "tarball": "https://npm.mspbots.ai/hono/-/hono-4.12.3.tgz"
+    },
+    "iconv-lite@0.7.2": {
+      "integrity": "sha512-im9DjEDQ55s9fL4EYzOAv0yMqmMBSZp6G0VvFyTMPKWxiSBHUj9NW/qqLmXUwXrrM7AvqSlTCfvqRb0cM8yYqw==",
+      "dependencies": [
+        "safer-buffer"
+      ],
+      "tarball": "https://npm.mspbots.ai/iconv-lite/-/iconv-lite-0.7.2.tgz"
+    },
+    "is-property@1.0.2": {
+      "integrity": "sha512-Ks/IoX00TtClbGQr4TWXemAnktAQvYB7HzcCxDGqEZU6oCmb2INHuOoKxbtR+HFkmYWBKv/dOZtGRiAjDhj92g==",
+      "tarball": "https://npm.mspbots.ai/is-property/-/is-property-1.0.2.tgz"
+    },
+    "long@5.3.2": {
+      "integrity": "sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==",
+      "tarball": "https://npm.mspbots.ai/long/-/long-5.3.2.tgz"
+    },
+    "lru.min@1.1.4": {
+      "integrity": "sha512-DqC6n3QQ77zdFpCMASA1a3Jlb64Hv2N2DciFGkO/4L9+q/IpIAuRlKOvCXabtRW6cQf8usbmM6BE/TOPysCdIA==",
+      "tarball": "https://npm.mspbots.ai/lru.min/-/lru.min-1.1.4.tgz"
+    },
+    "math-intrinsics@1.1.0": {
+      "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==",
+      "tarball": "https://npm.mspbots.ai/math-intrinsics/-/math-intrinsics-1.1.0.tgz"
+    },
+    "mysql2@3.19.1_@types+node@25.4.0": {
+      "integrity": "sha512-yn4zh+Uxu5J3Zvi6Ao96lJ7BSBRkspHflWQAmOPND+htbpIKDQw99TTvPzgihKO/QyMickZopO4OsnixnpcUwA==",
+      "dependencies": [
+        "@types/node",
+        "aws-ssl-profiles",
+        "denque",
+        "generate-function",
+        "iconv-lite",
+        "long",
+        "lru.min",
+        "named-placeholders",
+        "sql-escaper"
+      ],
+      "tarball": "https://npm.mspbots.ai/mysql2/-/mysql2-3.19.1.tgz"
+    },
+    "named-placeholders@1.1.6": {
+      "integrity": "sha512-Tz09sEL2EEuv5fFowm419c1+a/jSMiBjI9gHxVLrVdbUkkNUUfjsVYs9pVZu5oCon/kmRh9TfLEObFtkVxmY0w==",
+      "dependencies": [
+        "lru.min"
+      ],
+      "tarball": "https://npm.mspbots.ai/named-placeholders/-/named-placeholders-1.1.6.tgz"
+    },
+    "nodemailer@7.0.13": {
+      "integrity": "sha512-PNDFSJdP+KFgdsG3ZzMXCgquO7I6McjY2vlqILjtJd0hy8wEvtugS9xKRF2NWlPNGxvLCXlTNIae4serI7dinw==",
+      "tarball": "https://npm.mspbots.ai/nodemailer/-/nodemailer-7.0.13.tgz"
+    },
+    "object-inspect@1.13.4": {
+      "integrity": "sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==",
+      "tarball": "https://npm.mspbots.ai/object-inspect/-/object-inspect-1.13.4.tgz"
+    },
+    "qs@6.15.0": {
+      "integrity": "sha512-mAZTtNCeetKMH+pSjrb76NAM8V9a05I9aBZOHztWy/UqcJdQYNsf59vrRKWnojAT9Y+GbIvoTBC++CPHqpDBhQ==",
+      "dependencies": [
+        "side-channel"
+      ],
+      "tarball": "https://npm.mspbots.ai/qs/-/qs-6.15.0.tgz"
+    },
+    "safer-buffer@2.1.2": {
+      "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==",
+      "tarball": "https://npm.mspbots.ai/safer-buffer/-/safer-buffer-2.1.2.tgz"
+    },
+    "side-channel-list@1.0.0": {
+      "integrity": "sha512-FCLHtRD/gnpCiCHEiJLOwdmFP+wzCmDEkc9y7NsYxeF4u7Btsn1ZuwgwJGxImImHicJArLP4R0yX4c2KCrMrTA==",
+      "dependencies": [
+        "es-errors",
+        "object-inspect"
+      ],
+      "tarball": "https://npm.mspbots.ai/side-channel-list/-/side-channel-list-1.0.0.tgz"
+    },
+    "side-channel-map@1.0.1": {
+      "integrity": "sha512-VCjCNfgMsby3tTdo02nbjtM/ewra6jPHmpThenkTYh8pG9ucZ/1P8So4u4FGBek/BjpOVsDCMoLA/iuBKIFXRA==",
+      "dependencies": [
+        "call-bound",
+        "es-errors",
+        "get-intrinsic",
+        "object-inspect"
+      ],
+      "tarball": "https://npm.mspbots.ai/side-channel-map/-/side-channel-map-1.0.1.tgz"
+    },
+    "side-channel-weakmap@1.0.2": {
+      "integrity": "sha512-WPS/HvHQTYnHisLo9McqBHOJk2FkHO/tlpvldyrnem4aeQp4hai3gythswg6p01oSoTl58rcpiFAjF2br2Ak2A==",
+      "dependencies": [
+        "call-bound",
+        "es-errors",
+        "get-intrinsic",
+        "object-inspect",
+        "side-channel-map"
+      ],
+      "tarball": "https://npm.mspbots.ai/side-channel-weakmap/-/side-channel-weakmap-1.0.2.tgz"
+    },
+    "side-channel@1.1.0": {
+      "integrity": "sha512-ZX99e6tRweoUXqR+VBrslhda51Nh5MTQwou5tnUDgbtyM0dBgmhEDtWGP/xbKn6hqfPRHujUNwz5fy/wbbhnpw==",
+      "dependencies": [
+        "es-errors",
+        "object-inspect",
+        "side-channel-list",
+        "side-channel-map",
+        "side-channel-weakmap"
+      ],
+      "tarball": "https://npm.mspbots.ai/side-channel/-/side-channel-1.1.0.tgz"
+    },
+    "sql-escaper@1.3.3": {
+      "integrity": "sha512-BsTCV265VpTp8tm1wyIm1xqQCS+Q9NHx2Sr+WcnUrgLrQ6yiDIvHYJV5gHxsj1lMBy2zm5twLaZao8Jd+S8JJw==",
+      "tarball": "https://npm.mspbots.ai/sql-escaper/-/sql-escaper-1.3.3.tgz"
+    },
+    "undici-types@7.18.2": {
+      "integrity": "sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==",
+      "tarball": "https://npm.mspbots.ai/undici-types/-/undici-types-7.18.2.tgz"
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:@mspbots/type@190.0.0",
+      "npm:hono@4.12.3",
+      "npm:mysql2@^3.15.2",
+      "npm:nodemailer@^7.0.5"
+    ]
+  }
+}

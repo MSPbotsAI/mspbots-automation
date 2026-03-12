@@ -1,0 +1,56 @@
+{
+  "name": "mspbots-automation",
+  "version": "0.1.0",
+  "description": "the backend api automation text",
+  "type": "module",
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "lucide-react": "^0.577.0",
+    "next-themes": "^0.4.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.1.3",
+    "jose": "^6.1.3",
+    "@mspbots/bridge": "195.0.0",
+    "mspack": "196.0.0",
+    "@mspbots/fetch": "195.0.0",
+    "@mspbots/ui": "194.0.0",
+    "@mspbots/layout": "195.0.0"
+  },
+  "devDependencies": {
+    "@types/deno": "^2.5.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "@tailwindcss/typography": "0.5.19",
+    "@tailwindcss/container-queries": "0.1.1",
+    "autoprefixer": "10.4.23",
+    "esbuild": "0.27.2",
+    "postcss": "8.5.6",
+    "tailwindcss": "3.4.19",
+    "tailwindcss-animate": "1.0.7",
+    "tw-animate-css": "1.4.0",
+    "typescript": "5.9.3",
+    "@mspbots/react": "194.0.0",
+    "@mspbots/type": "194.0.0",
+    "@mspbots/tsconfig": "193.0.0",
+    "@mspbots/routes": "197.0.0"
+  },
+  "manifest": {
+    "icon": "📦",
+    "hasBackend": true,
+    "metadata": {
+      "mspbots": "mspbots"
+    },
+    "permissions": {},
+    "version": "177.0.1",
+    "id": "moss2952campcmp2hlv5i3oyhj7tfcpo",
+    "name": "mspbots-automation",
+    "description": "the backend api automation text"
+  },
+  "scripts": {
+    "predev": "cd service && deno install",
+    "dev": "mspack dev",
+    "build": "mspack build"
+  }
+}
