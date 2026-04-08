@@ -34,6 +34,7 @@ export default defineConfig({
           mode: 'vertical',
           collapsible: true,
           defaultCollapsed: false,
+          sidebarFooterActions: [],
 
           header: {
             enabled:true,
@@ -46,7 +47,7 @@ export default defineConfig({
             fullscreenDisabled: true,
             notificationsDisabled: true,
         
-            disabledTooltip: 'Development Environment (DEV) — Data may be test or unstable',
+            disabledTooltip: '⚡ DEV',
           },
         },
       },

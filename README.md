@@ -15,10 +15,14 @@ This document is an operator manual for LLMs working inside a project created fr
 
 1. Always follow the target package's README before using its API.
 2. Do not invent APIs, props, config fields, or file locations.
-3. Frontend API calls must use `$fetch` / `@mspbots/fetch` (no raw `fetch()` unless a package README requires it).
-4. Never log or expose the token string. Use `window.useAccess()` only for roles/payload debugging.
-5. Route/menu permissions should be implemented with page `meta` (`menu` / `route`) first, and only then with element-level gating (`<Permission />`).
-6. All scrollable areas must use `ScrollArea` from `@mspbots/ui` (avoid `overflow-*-auto/scroll`). Run `pnpm -s check:scroll` to enforce.
+3. **All UI must be built with `@mspbots/ui` components.** Do not use raw HTML elements (`<button>`, `<input>`, `<select>`, `<table>`, `<dialog>`, etc.) when an equivalent exists in `@mspbots/ui`. Import from `@mspbots/ui` — never recreate or duplicate component functionality.
+4. **Build complex UI by composing existing components.** Refer to `@mspbots/ui` README (`node_modules/@mspbots/ui/README.md`) for the full component catalog. Combine `Card`, `Table`, `Tabs`, `Dialog`, `Form`, `Field`, `InputGroup`, etc. to build pages — do not build from scratch.
+5. Frontend API calls must use `$fetch` / `@mspbots/fetch` (no raw `fetch()` unless a package README requires it).
+6. Never log or expose the token string. Use `window.useAccess()` only for roles/payload debugging.
+7. Route/menu permissions should be implemented with page `meta` (`menu` / `route`) first, and only then with element-level gating (`<Permission />`).
+8. All scrollable areas must use `ScrollArea` from `@mspbots/ui` (avoid `overflow-*-auto/scroll`). Run `pnpm -s check:scroll` to enforce.
+9. Icons must come from `lucide-react`. Do not install other icon libraries.
+10. Use `cn()` from `@mspbots/ui` for conditional class merging. Do not use manual string concatenation or install `clsx`/`classnames` separately.
 
 ## Project Structure
 
@@ -136,56 +140,6 @@ When running locally (`pnpm dev`), the development server automatically proxies 
 
 > **Note:** These proxies are configured automatically by the CLI. Using other prefixes for backend routes may result in 404 errors during local development unless you manually configure additional proxies in `mspbot.config.ts`.
 
-## Backend API Monitor (MySQL + Email Alert)
-
-This project includes a backend monitor module under `monitor-service/`.
-
-### What it does
-
-- Runs every 5 minutes (`MONITOR_INTERVAL_SECONDS=300`)
-- Calls tenant API `/apps/mb-platform-user/api/tenants` with pagination (`page/pageSize`)
-- Calls agents API `/apps/mb-platform-agent/api/agents` for each tenant with cookie `X_Tenant_ID=<tenant.id>`
-- Saves every request execution record to MySQL (`request_logs`)
-- Saves tenant snapshots to MySQL (`tenant_cache`)
-- Sends alert email immediately when:
-  - tenant API request fails
-  - tenant API returns empty tenant array
-  - agents API request fails for any tenant
-  - critical tenant (default `mspbots.ai,mspbots`) returns empty agents array
-
-### Required env vars
-
-Already added in `.env.development` and `.env.production`:
-
-- MySQL: `MONITOR_DB_HOST`, `MONITOR_DB_PORT`, `MONITOR_DB_NAME`, `MONITOR_DB_USER`, `MONITOR_DB_PASSWORD`
-- SMTP: `MONITOR_SMTP_HOST`, `MONITOR_SMTP_PORT`, `MONITOR_SMTP_USER`, `MONITOR_SMTP_PASS`, `MONITOR_EMAIL_TO`
-- APIs: `MONITOR_TENANT_API_URL`, `MONITOR_AGENT_API_URL`, `MONITOR_TENANT_API_TOKEN`, `MONITOR_AGENT_API_TOKEN`
-- Tenant cookie context: `MONITOR_TENANT_COOKIE_TENANT_ID`, `MONITOR_AGENT_COOKIE_HOST`
-- Scheduler: `MONITOR_ENABLED`, `MONITOR_INTERVAL_SECONDS`, `MONITOR_RUN_ON_START`
-
-### SQL initialization
-
-Schema file:
-
-- `monitor-service/sql/001_init_monitor_tables.sql`
-
-The backend also auto-initializes schema at startup, but keeping SQL file allows manual DBA execution and review.
-
-### Runtime behavior
-
-- Scheduler auto-starts when backend starts
-- Duplicate overlapping runs are prevented
-- Request/alert/run tracking tables:
-  - `monitor_runs`
-  - `tenant_cache`
-  - `request_logs`
-  - `alert_logs`
-
-### Operations APIs
-
-- Trigger one run: `POST /api/monitor/run`
-- Get monitor status: `GET /api/monitor/status`
-
 ## Permission Selection Guide (frontend vs backend)
 
 - Frontend permissions (page `meta` / `Permission` component): navigation and element visibility; keywords: frontend permissions, route guard, visibility, UX.
@@ -207,6 +161,24 @@ Docs location in a generated project:
 | `@mspbots/system` | Build + runtime inject | When you need system-level behavior: app title/icon, theme/layout, 403 handling, global `$fetch`, `window.useAccess()`, or auth redirect (`system.auth`). | `node_modules/@mspbots/system/README.md` |
 | `@mspbots/react` | Build | When you need to change the build pipeline for the template. In most cases, you only configure it in `mspbot.config.ts` and let it aggregate everything. | `node_modules/@mspbots/react/README.md` |
 | `@mspbots/ui` | Frontend | When you build UI pages: buttons/forms/dialogs/tables, and element-level permission gating with `<Permission />`. | `node_modules/@mspbots/ui/README.md` |
+
+### `@mspbots/ui` Component Quick Reference
+
+All UI must be imported from `@mspbots/ui`. Below is the full catalog (56 components):
+
+**Layout & Structure:** `Card` (CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction) · `Separator` · `AspectRatio` · `ResizablePanelGroup` (ResizablePanel, ResizableHandle) · `ScrollArea` (ScrollBar) · `Collapsible` (CollapsibleTrigger, CollapsibleContent) · `Accordion` (AccordionItem, AccordionTrigger, AccordionContent)
+
+**Forms & Input:** `Button` (variants: default/secondary/outline/ghost/link/destructive; sizes: default/sm/lg/icon/icon-sm/icon-lg) · `ButtonGroup` · `Input` · `Textarea` · `InputGroup` (InputGroupInput, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea) · `InputOTP` (InputOTPGroup, InputOTPSlot, InputOTPSeparator) · `Select` (SelectTrigger, SelectValue, SelectContent, SelectItem, SelectGroup, SelectLabel) · `Checkbox` · `RadioGroup` (RadioGroupItem) · `Switch` · `Slider` · `Toggle` (variants: default/outline) · `ToggleGroup` (ToggleGroupItem) · `Calendar` · `Label` · `Form` (FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage) · `Field` (FieldLabel, FieldDescription, FieldError, FieldContent, FieldGroup, FieldSet, FieldTitle, FieldLegend, FieldSeparator) · `Combobox` (ComboboxMultiple, ComboboxChip, ComboboxChips, ComboboxChipsInput, ComboboxValue)
+
+**Data Display:** `Table` (TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption) · `Badge` (variants: default/secondary/destructive/outline/ghost/link) · `Avatar` (AvatarImage, AvatarFallback) · `Progress` · `Skeleton` · `Spinner` · `Kbd` (KbdGroup) · `Item` (ItemGroup, ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemHeader, ItemFooter, ItemActions, ItemSeparator) · `Empty` (EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent, EmptyMedia)
+
+**Navigation:** `Tabs` (TabsList, TabsTrigger, TabsContent) · `Breadcrumb` (BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis) · `Pagination` (PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis) · `NavigationMenu` (NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink) · `Menubar` (MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarLabel, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSub, MenubarSubTrigger, MenubarSubContent, MenubarShortcut) · `Sidebar` (framework-managed)
+
+**Overlays & Feedback:** `Dialog` (DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose) · `AlertDialog` (AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel) · `Sheet` (SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose) · `Drawer` (DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose) · `DropdownMenu` (DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, DropdownMenuShortcut) · `ContextMenu` (same sub-component pattern as DropdownMenu) · `Popover` (PopoverTrigger, PopoverContent, PopoverAnchor) · `HoverCard` (HoverCardTrigger, HoverCardContent) · `Tooltip` (TooltipProvider, TooltipTrigger, TooltipContent) · `Alert` (AlertTitle, AlertDescription; variants: default/destructive) · `Toaster` (from sonner) · `Command` (CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut, CommandDialog)
+
+**Access Control:** `Permission` (roles-based element visibility)
+
+**Utilities:** `cn()` (class merging), `useIsMobile()` (responsive hook), `VisuallyHidden`
 | `@mspbots/fetch` | Frontend | HTTP requests (`$fetch`), Server-Sent Events (`$sse`), WebSocket (`$ws`). Provides automatic basePath normalization and auth headers injection. | `node_modules/@mspbots/fetch/README.md` |
 | `@mspbots/layout` | Frontend | When you customize the app shell (sidebar/header), navigation rendering, or layout behavior beyond `system.layout` config. | `node_modules/@mspbots/layout/README.md` |
 | `@mspbots/bridge` | Frontend | When integrating micro-frontends: token/context sync, events, or host/sub-app communication. | `node_modules/@mspbots/bridge/README.md` |
