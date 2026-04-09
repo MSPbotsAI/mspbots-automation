@@ -251,6 +251,15 @@ export class MonitorJobRunner {
           ? String((result.data as { message?: unknown }).message ?? "")
           : "";
       const agents = Array.isArray(result.data?.data) ? result.data?.data : [];
+      const agentNames = agents
+        .map((agent) => {
+          if (agent && typeof agent === "object" && "name" in agent) {
+            const value = (agent as { name?: unknown }).name;
+            return typeof value === "string" ? value : null;
+          }
+          return null;
+        })
+        .filter((name): name is string => Boolean(name));
 
       await this.repository.logRequest({
         runId,
@@ -266,6 +275,7 @@ export class MonitorJobRunner {
         responseSummary: businessSuccess
           ? safeStringify({
               count: agents.length,
+              agentNames,
               success: result.data?.success,
               message: agentMessage,
               statusCode: result.statusCode,
