@@ -259,12 +259,24 @@ function MonitorReport() {
             if (!selectedTenant) return;
             const payload = { ...(tokenPayload as any), tenantId: value, tenant: selectedTenant };
             try {
-              const res = await $fetch('https://agent.mspbots.ai/apps/mb-platform-user/api/auth/token', {
+              const res = await fetch('https://agent.mspbots.ai/apps/mb-platform-user/api/auth/token', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${access.token}`,
+                  'Accept': '*/*'
+                },
                 body: JSON.stringify(payload)
               });
-              const newToken = await res.text();
+              const raw = (await res.text()).trim();
+              if (!res.ok) {
+                throw new Error(`HTTP ${res.status}: ${raw}`);
+              }
+              let newToken = raw;
+              try {
+                const parsed = JSON.parse(raw);
+                newToken = parsed?.token || parsed?.accessToken || parsed?.access_token || parsed?.data?.token || parsed?.data?.accessToken || parsed?.data?.access_token || raw;
+              } catch {}
               if (newToken) {
                 localStorage.setItem('token', newToken);
                 window.location.reload();

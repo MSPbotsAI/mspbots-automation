@@ -9,11 +9,29 @@ interface RequestOptions {
   body?: unknown;
 }
 
-function decodeJwtPayload(token: string): any {
-  const parts = token.split('.');
-  if (parts.length !== 3) throw new Error('Invalid JWT');
+interface TokenPayload {
+  id?: string;
+  email?: string;
+  tenantId?: string;
+  displayName?: string;
+  roles?: string[];
+  appRoles?: Record<string, unknown>;
+  tenant?: Record<string, unknown> & { id?: string; name?: string; agentDomain?: string };
+  iat?: number;
+  sub?: string;
+  exp?: number;
+  userId?: string;
+  originalTenant?: Record<string, unknown>;
+  originalTenantId?: string;
+  originalUserId?: string;
+  [key: string]: unknown;
+}
+
+function decodeJwtPayload(token: string): TokenPayload {
+  const parts = token.split(".");
+  if (parts.length !== 3) throw new Error("Invalid JWT");
   const payload = parts[1];
-  const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+  const decoded = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
   return JSON.parse(decoded);
 }
 
@@ -22,17 +40,51 @@ export class PlatformClient {
 
   async getTenantToken(tenantId: string): Promise<string> {
     const payload = decodeJwtPayload(this.config.tenantApiToken);
-    const newPayload = { ...payload, tenantId, tenant: payload.tenant ? { ...payload.tenant, id: tenantId } : undefined };
-    const response = await fetch('https://agent.mspbots.ai/apps/mb-platform-user/api/auth/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const newPayload: TokenPayload = {
+      ...payload,
+      tenantId,
+      tenant: payload.tenant ? { ...payload.tenant, id: tenantId } : { id: tenantId },
+    };
+
+    const response = await fetch("https://agent.mspbots.ai/apps/mb-platform-user/api/auth/token", {
+      method: "POST",
+      headers: {
+        accept: "*/*",
+        "content-type": "application/json",
+        authorization: `Bearer ${this.config.tenantApiToken}`,
+      },
       body: JSON.stringify(newPayload),
     });
+
     if (!response.ok) {
-      throw new Error(`Failed to get tenant token: ${response.status}`);
+      const errorText = await response.text().catch(() => "");
+      throw new Error(`Failed to get tenant token: ${response.status}${errorText ? `, ${truncateText(errorText, 500)}` : ""}`);
     }
-    const newToken = await response.text();
-    return newToken;
+
+    const rawText = (await response.text()).trim();
+    if (!rawText) {
+      throw new Error("Failed to get tenant token: empty response body");
+    }
+
+    try {
+      const parsed = JSON.parse(rawText) as Record<string, unknown>;
+      const candidate = [
+        parsed.token,
+        parsed.accessToken,
+        parsed.access_token,
+        parsed.data && typeof parsed.data === "object" ? (parsed.data as Record<string, unknown>).token : undefined,
+        parsed.data && typeof parsed.data === "object" ? (parsed.data as Record<string, unknown>).accessToken : undefined,
+        parsed.data && typeof parsed.data === "object" ? (parsed.data as Record<string, unknown>).access_token : undefined,
+      ].find((value) => typeof value === "string" && value.length > 0);
+
+      if (typeof candidate === "string") {
+        return candidate;
+      }
+    } catch {
+      // ignore json parse failure, fallback to raw text token
+    }
+
+    return rawText;
   }
 
   async fetchTenantsPage(page: number, pageSize: number): Promise<RequestExecutionResult<TenantsResponse>> {
