@@ -11,8 +11,18 @@ import {
   CardHeader,
   CardTitle,
   ScrollArea,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@mspbots/ui";
 import { BarChart3, Play, RefreshCw } from "lucide-react";
+
+interface Tenant {
+  id: string;
+  name: string;
+}
 
 export const meta = {
   label: "Home",
@@ -167,6 +177,14 @@ function MonitorReport() {
   const [error, setError] = useState<string | null>(null);
   const [lastRefreshAt, setLastRefreshAt] = useState<string | null>(null);
 
+  const access = window.useAccess();
+  const { tokenPayload } = access;
+  const [selectedTenantId, setSelectedTenantId] = useState((tokenPayload as any)?.tenant?.id || (tokenPayload as any)?.originalTenant?.id || '');
+  const tenants: Tenant[] = tokenPayload ? [
+    (tokenPayload as any).tenant,
+    (tokenPayload as any).originalTenant
+  ].filter(t => t && t.id).filter((t, index, arr) => arr.findIndex(tt => tt.id === t.id) === index) : [];
+
   const loadStatus = async () => {
     setLoading(true);
     setError(null);
@@ -233,6 +251,37 @@ function MonitorReport() {
       <CardHeader>
         <CardTitle>最近一次监控报表</CardTitle>
         <CardDescription>展示最近一次监控任务的执行结果与关键指标</CardDescription>
+        <div className="flex items-center gap-2">
+          <span className="text-sm">Tenant:</span>
+          <Select value={selectedTenantId} onValueChange={async (value) => {
+            setSelectedTenantId(value);
+            const selectedTenant = tenants.find(t => t.id === value);
+            if (!selectedTenant) return;
+            const payload = { ...(tokenPayload as any), tenantId: value, tenant: selectedTenant };
+            try {
+              const res = await $fetch('https://agent.mspbots.ai/apps/mb-platform-user/api/auth/token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              const newToken = await res.text();
+              if (newToken) {
+                localStorage.setItem('token', newToken);
+                window.location.reload();
+              }
+            } catch (error) {
+              console.error('Failed to switch tenant:', error);
+              setError('Failed to switch tenant');
+            }
+          }}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {tenants.map(t => <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-wrap items-center gap-2">

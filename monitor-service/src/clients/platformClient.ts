@@ -9,8 +9,31 @@ interface RequestOptions {
   body?: unknown;
 }
 
+function decodeJwtPayload(token: string): any {
+  const parts = token.split('.');
+  if (parts.length !== 3) throw new Error('Invalid JWT');
+  const payload = parts[1];
+  const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+  return JSON.parse(decoded);
+}
+
 export class PlatformClient {
   constructor(private readonly config: MonitorConfig) {}
+
+  async getTenantToken(tenantId: string): Promise<string> {
+    const payload = decodeJwtPayload(this.config.tenantApiToken);
+    const newPayload = { ...payload, tenantId, tenant: payload.tenant ? { ...payload.tenant, id: tenantId } : undefined };
+    const response = await fetch('https://agent.mspbots.ai/apps/mb-platform-user/api/auth/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newPayload),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to get tenant token: ${response.status}`);
+    }
+    const newToken = await response.text();
+    return newToken;
+  }
 
   async fetchTenantsPage(page: number, pageSize: number): Promise<RequestExecutionResult<TenantsResponse>> {
     const url = new URL(this.config.tenantApiUrl);
@@ -27,10 +50,11 @@ export class PlatformClient {
 
   async fetchAgentsByTenant(tenantId: string): Promise<RequestExecutionResult<AgentsResponse>> {
     const host = new URL(this.config.agentApiUrl).host;
+    const token = await this.getTenantToken(tenantId);
     return this.requestJson<AgentsResponse>({
       url: this.config.agentApiUrl,
       method: "GET",
-      headers: this.buildPlatformHeaders(this.config.agentApiToken, host, tenantId),
+      headers: this.buildPlatformHeaders(token, host, tenantId),
     });
   }
 
